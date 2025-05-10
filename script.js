@@ -12,15 +12,23 @@ class Game2048 {
         }
     }
 
+    hasWon() {
+        for (let row of this.board) {
+            if (row.includes(2048)) return true;
+        }
+        return false;
+    }
+
+
     _createEmptyBoard() {
-        return Array.from({ length: this.size }, () => Array(this.size).fill(0));
+        return Array.from({length: this.size}, () => Array(this.size).fill(0));
     }
 
     _getEmptyCells() {
         const empty = [];
         for (let r = 0; r < this.size; r++) {
             for (let c = 0; c < this.size; c++) {
-                if (this.board[r][c] === 0) empty.push({ row: r, col: c });
+                if (this.board[r][c] === 0) empty.push({row: r, col: c});
             }
         }
         return empty;
@@ -29,7 +37,7 @@ class Game2048 {
     _addRandomTile() {
         const empty = this._getEmptyCells();
         if (empty.length === 0) return;
-        const { row, col } = empty[Math.floor(Math.random() * empty.length)];
+        const {row, col} = empty[Math.floor(Math.random() * empty.length)];
         this.board[row][col] = Math.random() < 0.9 ? 2 : 4;
     }
 
@@ -183,6 +191,9 @@ class GameView {
 
 class GameController {
     constructor(size, containerSelector, scoreSelector) {
+        this.overlay = document.getElementById("overlay");
+        this.endMessage = document.getElementById("end-message");
+        this.playAgainBtn = document.getElementById("play-again");
         this.game = new Game2048(size);
         this.view = new GameView(containerSelector, scoreSelector);
         this._bindEvents();
@@ -190,6 +201,10 @@ class GameController {
     }
 
     _bindEvents() {
+        this.playAgainBtn.addEventListener("click", () => {
+            this.overlay.classList.add("hidden");
+            this._playAgain();
+        });
         document.addEventListener("keydown", (e) => this._handleMove(e.key));
         const restartBtn = document.getElementById("restart");
         if (restartBtn) {
@@ -209,8 +224,10 @@ class GameController {
         if (moveFn && moveFn()) {
             this.render();
             this.game.saveState();
-            if (this.game.isGameOver()) {
-                setTimeout(() => alert("Game over!"), 100);
+            if (this.game.hasWon()) {
+                this._showEndMessage("You win!");
+            } else if (this.game.isGameOver()) {
+                this._showEndMessage("Game over!");
             }
         }
     }
@@ -224,6 +241,12 @@ class GameController {
         this.view.renderBoard(this.game.board);
         this.view.updateScore(this.game.score);
     }
+
+    _showEndMessage(message) {
+        this.endMessage.textContent = message;
+        this.overlay.classList.remove("hidden");
+    }
+
 }
 
 // Инициализация
