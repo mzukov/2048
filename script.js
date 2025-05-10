@@ -5,8 +5,11 @@ class Game2048 {
         this.size = size;
         this.score = 0;
         this.board = this._createEmptyBoard();
-        this._addRandomTile();
-        this._addRandomTile();
+        this._loadState(); // Загружаем состояние из localStorage
+        if (this.board.every(row => row.every(cell => cell === 0))) {
+            this._addRandomTile();
+            this._addRandomTile();
+        }
     }
 
     _createEmptyBoard() {
@@ -119,6 +122,34 @@ class Game2048 {
 
         return true;
     }
+
+    // Метод для сохранения состояния игры в localStorage
+    saveState() {
+        const state = {
+            board: this.board,
+            score: this.score
+        };
+        localStorage.setItem('game2048State', JSON.stringify(state));
+    }
+
+    // Метод для загрузки состояния игры из localStorage
+    _loadState() {
+        const state = JSON.parse(localStorage.getItem('game2048State'));
+        if (state) {
+            this.board = state.board;
+            this.score = state.score;
+        }
+    }
+
+    // Метод для сброса состояния игры и очистки localStorage
+    resetGame() {
+        this.board = this._createEmptyBoard();
+        this._addRandomTile();
+        this._addRandomTile();
+        this.score = 0;
+        this.saveState(); // Сохраняем пустое состояние
+        localStorage.removeItem('game2048State'); // Удаляем состояние из localStorage
+    }
 }
 
 class GameView {
@@ -162,7 +193,7 @@ class GameController {
         document.addEventListener("keydown", (e) => this._handleMove(e.key));
         const restartBtn = document.getElementById("restart");
         if (restartBtn) {
-            restartBtn.addEventListener("click", () => this._restart());
+            restartBtn.addEventListener("click", () => this._playAgain());
         }
     }
 
@@ -177,14 +208,15 @@ class GameController {
         const moveFn = moves[key];
         if (moveFn && moveFn()) {
             this.render();
+            this.game.saveState();
             if (this.game.isGameOver()) {
                 setTimeout(() => alert("Game over!"), 100);
             }
         }
     }
 
-    _restart() {
-        this.game = new Game2048(this.game.size);
+    _playAgain() {
+        this.game.resetGame();
         this.render();
     }
 
