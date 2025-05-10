@@ -1,185 +1,200 @@
-const SIZE = 4;
-let board = [];
-let score = 0;
+// script.js
 
-// Получаем элементы DOM
-const gridContainer = document.querySelector(".grid-container");
-const scoreDisplay = document.getElementById("score");
-const restartBtn = document.getElementById("restart");
-
-// Запуск игры
-restartBtn.addEventListener("click", startGame);
-startGame();
-
-function startGame() {
-    // Инициализируем пустое поле
-    board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
-    score = 0;
-    updateScore();
-
-    // Добавим две стартовые плитки
-    addRandomTile();
-    addRandomTile();
-
-    updateBoardView();
-}
-
-function updateScore() {
-    scoreDisplay.textContent = score;
-}
-
-function updateBoardView() {
-    // Очистим все ячейки
-    for (let row = 0; row < SIZE; row++) {
-        for (let col = 0; col < SIZE; col++) {
-            const cell = document.querySelector(`[data-pos="${row}-${col}"]`);
-            const value = board[row][col];
-
-            cell.textContent = value === 0 ? "" : value;
-            cell.className = "cell";
-            if (value) cell.classList.add(`tile-${value}`);
-        }
+class Game2048 {
+    constructor(size = 4) {
+        this.size = size;
+        this.score = 0;
+        this.board = this._createEmptyBoard();
+        this._addRandomTile();
+        this._addRandomTile();
     }
-}
 
-function addRandomTile() {
-    const emptyCells = [];
+    _createEmptyBoard() {
+        return Array.from({ length: this.size }, () => Array(this.size).fill(0));
+    }
 
-    for (let row = 0; row < SIZE; row++) {
-        for (let col = 0; col < SIZE; col++) {
-            if (board[row][col] === 0) {
-                emptyCells.push({ row, col });
+    _getEmptyCells() {
+        const empty = [];
+        for (let r = 0; r < this.size; r++) {
+            for (let c = 0; c < this.size; c++) {
+                if (this.board[r][c] === 0) empty.push({ row: r, col: c });
+            }
+        }
+        return empty;
+    }
+
+    _addRandomTile() {
+        const empty = this._getEmptyCells();
+        if (empty.length === 0) return;
+        const { row, col } = empty[Math.floor(Math.random() * empty.length)];
+        this.board[row][col] = Math.random() < 0.9 ? 2 : 4;
+    }
+
+    _compress(row) {
+        return row.filter(x => x !== 0).concat(Array(this.size - row.filter(x => x !== 0).length).fill(0));
+    }
+
+    _merge(row) {
+        for (let i = 0; i < row.length - 1; i++) {
+            if (row[i] !== 0 && row[i] === row[i + 1]) {
+                row[i] *= 2;
+                this.score += row[i];
+                row[i + 1] = 0;
+                i++;
+            }
+        }
+        return row;
+    }
+
+    _operateRow(row) {
+        return this._compress(this._merge(this._compress(row)));
+    }
+
+    moveLeft() {
+        let changed = false;
+        for (let r = 0; r < this.size; r++) {
+            const newRow = this._operateRow(this.board[r]);
+            if (!this._arraysEqual(this.board[r], newRow)) {
+                this.board[r] = newRow;
+                changed = true;
+            }
+        }
+        if (changed) this._addRandomTile();
+        return changed;
+    }
+
+    moveRight() {
+        this._reverseRows();
+        const changed = this.moveLeft();
+        this._reverseRows();
+        return changed;
+    }
+
+    moveUp() {
+        this._transpose();
+        const changed = this.moveLeft();
+        this._transpose();
+        return changed;
+    }
+
+    moveDown() {
+        this._transpose();
+        this._reverseRows();
+        const changed = this.moveLeft();
+        this._reverseRows();
+        this._transpose();
+        return changed;
+    }
+
+    _reverseRows() {
+        this.board.forEach(row => row.reverse());
+    }
+
+    _transpose() {
+        for (let r = 0; r < this.size; r++) {
+            for (let c = r + 1; c < this.size; c++) {
+                [this.board[r][c], this.board[c][r]] = [this.board[c][r], this.board[r][c]];
             }
         }
     }
 
-    if (emptyCells.length === 0) return;
-
-    const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-    board[row][col] = Math.random() < 0.9 ? 2 : 4;
-}
-
-document.addEventListener("keydown", handleKey);
-
-function handleKey(event) {
-    let moved = false;
-
-    switch (event.key) {
-        case "ArrowLeft":
-            moved = moveLeft();
-            break;
-        case "ArrowRight":
-            moved = moveRight();
-            break;
-        case "ArrowUp":
-            moved = moveUp();
-            break;
-        case "ArrowDown":
-            moved = moveDown();
-            break;
+    _arraysEqual(a, b) {
+        return a.length === b.length && a.every((x, i) => x === b[i]);
     }
 
-    if (moved) {
-        addRandomTile();
-        updateBoardView();
+    isGameOver() {
+        if (this._getEmptyCells().length > 0) return false;
 
-        if (isGameOver()) {
-            setTimeout(() => alert("Game over!"), 100);
-        }
-    }
-}
-
-function moveLeft() {
-    let moved = false;
-
-    for (let row = 0; row < SIZE; row++) {
-        let currentRow = board[row].filter(val => val !== 0); // убираем нули
-        for (let i = 0; i < currentRow.length - 1; i++) {
-            if (currentRow[i] === currentRow[i + 1]) {
-                currentRow[i] *= 2;
-                score += currentRow[i];
-                currentRow[i + 1] = 0;
-                i++; // пропускаем следующий
-                moved = true;
+        for (let r = 0; r < this.size; r++) {
+            for (let c = 0; c < this.size - 1; c++) {
+                if (this.board[r][c] === this.board[r][c + 1]) return false;
             }
         }
 
-        currentRow = currentRow.filter(val => val !== 0); // снова убираем нули
-        while (currentRow.length < SIZE) currentRow.push(0);
-        if (!arraysEqual(board[row], currentRow)) moved = true;
-        board[row] = currentRow;
-    }
-
-    updateScore();
-    return moved;
-}
-
-function moveRight() {
-    reverseRows();
-    const moved = moveLeft();
-    reverseRows();
-    return moved;
-}
-
-function moveUp() {
-    transpose();
-    const moved = moveLeft();
-    transpose();
-    return moved;
-}
-
-function moveDown() {
-    transpose();
-    reverseRows();
-    const moved = moveLeft();
-    reverseRows();
-    transpose();
-    return moved;
-}
-
-function transpose() {
-    for (let row = 0; row < SIZE; row++) {
-        for (let col = row + 1; col < SIZE; col++) {
-            [board[row][col], board[col][row]] = [board[col][row], board[row][col]];
+        for (let c = 0; c < this.size; c++) {
+            for (let r = 0; r < this.size - 1; r++) {
+                if (this.board[r][c] === this.board[r + 1][c]) return false;
+            }
         }
+
+        return true;
     }
 }
 
-function isGameOver() {
-    // Есть хотя бы одна пустая ячейка?
-    for (let row = 0; row < SIZE; row++) {
-        for (let col = 0; col < SIZE; col++) {
-            if (board[row][col] === 0) return false;
+class GameView {
+    constructor(containerSelector, scoreSelector) {
+        this.gridContainer = document.querySelector(containerSelector);
+        this.scoreDisplay = document.querySelector(scoreSelector);
+        this.cells = [];
+        this._cacheCells();
+    }
 
-            // Можно объединить вправо?
-            if (col < SIZE - 1 && board[row][col] === board[row][col + 1]) return false;
+    _cacheCells() {
+        this.cells = Array.from(this.gridContainer.querySelectorAll(".cell"));
+    }
 
-            // Можно объединить вниз?
-            if (row < SIZE - 1 && board[row][col] === board[row + 1][col]) return false;
+    renderBoard(board) {
+        for (let r = 0; r < board.length; r++) {
+            for (let c = 0; c < board.length; c++) {
+                const cell = this.gridContainer.querySelector(`[data-pos='${r}-${c}']`);
+                const value = board[r][c];
+                cell.textContent = value === 0 ? "" : value;
+                cell.className = "cell";
+                if (value !== 0) cell.classList.add(`tile-${value}`);
+            }
         }
     }
 
-    // Нет пустых и нет одинаковых рядом — игра окончена
-    return true;
-}
-
-if (moved) {
-    addRandomTile();
-    updateBoardView();
-
-    if (isGameOver()) {
-        setTimeout(() => alert("Game over!"), 100);
+    updateScore(score) {
+        this.scoreDisplay.textContent = score;
     }
 }
 
+class GameController {
+    constructor(size, containerSelector, scoreSelector) {
+        this.game = new Game2048(size);
+        this.view = new GameView(containerSelector, scoreSelector);
+        this._bindEvents();
+        this.render();
+    }
 
-function reverseRows() {
-    for (let row = 0; row < SIZE; row++) {
-        board[row].reverse();
+    _bindEvents() {
+        document.addEventListener("keydown", (e) => this._handleMove(e.key));
+        const restartBtn = document.getElementById("restart");
+        if (restartBtn) {
+            restartBtn.addEventListener("click", () => this._restart());
+        }
+    }
+
+    _handleMove(key) {
+        const moves = {
+            ArrowLeft: () => this.game.moveLeft(),
+            ArrowRight: () => this.game.moveRight(),
+            ArrowUp: () => this.game.moveUp(),
+            ArrowDown: () => this.game.moveDown()
+        };
+
+        const moveFn = moves[key];
+        if (moveFn && moveFn()) {
+            this.render();
+            if (this.game.isGameOver()) {
+                setTimeout(() => alert("Game over!"), 100);
+            }
+        }
+    }
+
+    _restart() {
+        this.game = new Game2048(this.game.size);
+        this.render();
+    }
+
+    render() {
+        this.view.renderBoard(this.game.board);
+        this.view.updateScore(this.game.score);
     }
 }
 
-
-function arraysEqual(a, b) {
-    return a.length === b.length && a.every((val, i) => val === b[i]);
-}
+// Инициализация
+window.addEventListener("DOMContentLoaded", () => {
+    new GameController(4, ".grid-container", "#score");
+});
