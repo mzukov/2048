@@ -7,22 +7,30 @@ const gridContainer = document.querySelector(".grid-container");
 const scoreDisplay = document.getElementById("score");
 const restartBtn = document.getElementById("restart");
 
+const overlay = document.getElementById("overlay");
+const endMessage = document.getElementById("end-message");
+const playAgainBtn = document.getElementById("play-again");
+
+playAgainBtn.addEventListener("click", () => {
+    overlay.classList.add("hidden");
+    startGame();
+});
+
+
 // Запуск игры
 restartBtn.addEventListener("click", startGame);
 startGame();
 
 function startGame() {
-    // Инициализируем пустое поле
-    board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+    board = Array.from({length: SIZE}, () => Array(SIZE).fill(0));
     score = 0;
     updateScore();
-
-    // Добавим две стартовые плитки
     addRandomTile();
     addRandomTile();
-
     updateBoardView();
+    overlay.classList.add("hidden");
 }
+
 
 function updateScore() {
     scoreDisplay.textContent = score;
@@ -48,14 +56,14 @@ function addRandomTile() {
     for (let row = 0; row < SIZE; row++) {
         for (let col = 0; col < SIZE; col++) {
             if (board[row][col] === 0) {
-                emptyCells.push({ row, col });
+                emptyCells.push({row, col});
             }
         }
     }
 
     if (emptyCells.length === 0) return;
 
-    const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    const {row, col} = emptyCells[Math.floor(Math.random() * emptyCells.length)];
     board[row][col] = Math.random() < 0.9 ? 2 : 4;
 }
 
@@ -83,10 +91,13 @@ function handleKey(event) {
         addRandomTile();
         updateBoardView();
 
-        if (isGameOver()) {
-            setTimeout(() => alert("Game over!"), 100);
+        if (has2048()) {
+            showEnd("You win!");
+        } else if (isGameOver()) {
+            showEnd("Game over!");
         }
     }
+
 }
 
 function moveLeft() {
@@ -182,4 +193,13 @@ function reverseRows() {
 
 function arraysEqual(a, b) {
     return a.length === b.length && a.every((val, i) => val === b[i]);
+}
+
+function has2048() {
+    return board.flat().includes(2048);
+}
+
+function showEnd(message) {
+    endMessage.textContent = message;
+    overlay.classList.remove("hidden");
 }
