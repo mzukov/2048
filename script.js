@@ -145,6 +145,33 @@ function transpose() {
     }
 }
 
+function isGameOver() {
+    // Есть хотя бы одна пустая ячейка?
+    for (let row = 0; row < SIZE; row++) {
+        for (let col = 0; col < SIZE; col++) {
+            if (board[row][col] === 0) return false;
+
+            // Можно объединить вправо?
+            if (col < SIZE - 1 && board[row][col] === board[row][col + 1]) return false;
+
+            // Можно объединить вниз?
+            if (row < SIZE - 1 && board[row][col] === board[row + 1][col]) return false;
+        }
+    }
+
+    // Нет пустых и нет одинаковых рядом — игра окончена
+    return true;
+}
+
+if (moved) {
+    addRandomTile();
+    updateBoardView();
+
+    if (isGameOver()) {
+        setTimeout(() => alert("Game over!"), 100);
+    }
+}
+
 
 function reverseRows() {
     for (let row = 0; row < SIZE; row++) {
