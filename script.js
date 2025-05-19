@@ -250,6 +250,35 @@ class GameController {
 }
 
 // Инициализация
-window.addEventListener("DOMContentLoaded", () => {
-    new GameController(4, ".grid-container", "#score");
+//window.addEventListener("DOMContentLoaded", () => {
+//    new GameController(4, ".grid-container", "#score");
+//});
+
+let playerName = '';
+
+function startGame() {
+    // забираем имя
+    const input = document.getElementById('player-name');
+    const name = input.value.trim();
+    if (!name) {
+        alert('Пожалуйста, введите имя');
+        return;
+    }
+    playerName = name;
+
+    // убираем оверлей и показываем игру
+    document.getElementById('name-overlay').classList.add('hidden');
+    document.querySelector('.game-container').classList.remove('hidden');
+
+    // можно где-нибудь приветствовать
+    console.log(`Игрок: ${playerName}`);
+    // сюда же инициализируем игру
+    new GameController(4, '.grid-container', '#score');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // вместо автоматического старта игры ждем клика
+    document.getElementById('start-btn')
+        .addEventListener('click', startGame);
 });
+

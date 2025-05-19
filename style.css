@@ -1,3 +1,21 @@
+/* В style.css */
+.hidden { display: none; }
+.overlay {
+    position: fixed; top:0; left:0;
+    width:100vw; height:100vh;
+    background: rgba(0,0,0,0.5);
+    display:flex; align-items:center; justify-content:center;
+    z-index:100;
+}
+.modal {
+    background: #f9f6f2;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+
+
 body {
     font-family: sans-serif;
     display: flex;
