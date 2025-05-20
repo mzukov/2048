@@ -2,55 +2,29 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Играть</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-        #container {
-            max-width: 400px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px 0;
-            width: 100%;
-            font-size: 16px;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2048 — Ввод имени</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="overlay" class="overlay hidden">
-    <div class="modal">
-        <h2 id="end-message">You win!</h2>
-        <button id="play-again">Play Again</button>
-    </div>
-</div>
+<div class="start-container">
+    <h1 class="logo">2048</h1>
+    <p class="prompt">Введите ваше имя</p>
 
-<div id="container">
-    <h2>Введи своё имя</h2>
-    <input type="text" id="nameInput" placeholder="Имя">
-    <button onclick="playGame()">Играть</button>
-    <p id="greeting"></p>
+    <input type="text" id="playerName" class="name-input" placeholder="Имя игрока">
+    <button id="startGame">Начать игру</button>
 </div>
 
 <script>
-    function playGame() {
-        const name = document.getElementById('nameInput').value;
-        const greeting = document.getElementById('greeting');
-        if (name.trim()) {
-            greeting.textContent = `Привет, ${name}! Игра начинается!`;
-        } else {
-            greeting.textContent = 'Пожалуйста, введи имя.';
+    document.getElementById('startGame').addEventListener('click', () => {
+        const name = document.getElementById('playerName').value.trim();
+        if (!name) {
+            alert('Пожалуйста, введите имя.');
+            return;
         }
-    }
+        sessionStorage.setItem('playerName', name);
+        window.location.href = 'game.html';
+    });
 </script>
 </body>
 </html>

@@ -1,170 +1,248 @@
-body {
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #faf8ef;
+/*********************************************************
+ *  2048 — стиль «пастель + цветы»                        *
+ *  (замените этим файлом свой style.css целиком)         *
+ *********************************************************/
+
+/* ======= Общие базовые стили ========================== */
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0
 }
 
+body {
+    font-family: "Comic Sans MS", "Arial", sans-serif;
+    background: #7f8aa3; /* серо-лавандовый из макета */
+    color: #1d1d1d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
+/* ======= СТАРТОВАЯ СТРАНИЦА =========================== */
+.start-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px
+}
+
+.logo {
+    font-size: 160px;
+    letter-spacing: 14px;
+    color: #fff;
+}
+
+.prompt {
+    font-size: 44px;
+    color: #fff
+}
+
+.name-input {
+    width: 640px;
+    height: 96px;
+    padding: 0 24px;
+    font-size: 38px;
+    font-weight: 600;
+    border: none;
+    border-radius: 24px;
+    background: #d4d4d4;
+}
+
+#startGame {
+    font-size: 38px;
+    padding: 24px 72px;
+    border: none;
+    border-radius: 24px;
+    background: #9f97c1;
+    color: #fff;
+    cursor: pointer;
+    transition: filter .2s
+}
+
+#startGame:hover {
+    filter: brightness(1.1)
+}
+
+/* ======= ИГРОВАЯ СТРАНИЦА ============================= */
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 36px
 }
 
+/* ——— Шапка ——— */
 .header {
     display: flex;
-    justify-content: space-between;
-    width: 270px;
-    margin-bottom: 20px;
+    gap: 32px
 }
 
-.score-board {
-    background: #bbada0;
+.player-board, .score-board {
+    min-width: 180px;
+    background: rgba(208, 142, 210, .4);
+    border: 3px solid #d08ed2;
+    border-radius: 16px;
+    padding: 14px 20px;
+    font-size: 24px;
+    line-height: 1.2;
+    font-weight: 700;
     color: #fff;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: bold;
 }
 
 #restart {
-    padding: 10px;
-    background: #8f7a66;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    padding: 18px 34px;
+    font-size: 24px;
+    background: #9f97c1;
+    color: #fff;
+    border: 3px solid #d08ed2;
+    border-radius: 16px;
     cursor: pointer;
+    transition: filter .2s
 }
 
+#restart:hover {
+    filter: brightness(1.1)
+}
+
+/* ——— Игровое поле (4×4) ——— */
 .grid-container {
+    width: 452px; /* 4×100 + 3×10 gap + 2×padding */
+    height: 452px;
     display: grid;
-    grid-template-columns: repeat(4, 60px);
-    grid-template-rows: repeat(4, 60px);
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:repeat(4, 1fr);
     gap: 10px;
-    background: #bbada0;
     padding: 10px;
-    border-radius: 5px;
-}
-
-.cell {
-    width: 60px;
-    height: 60px;
-    background: #cdc1b4;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-/* Цвета плиток */
-.tile-2     { background: #eee4da; color: #776e65; }
-.tile-4     { background: #ede0c8; color: #776e65; }
-.tile-8     { background: #f2b179; color: #f9f6f2; }
-.tile-16    { background: #f59563; color: #f9f6f2; }
-.tile-32    { background: #f67c5f; color: #f9f6f2; }
-.tile-64    { background: #f65e3b; color: #f9f6f2; }
-.tile-128   { background: #edcf72; color: #f9f6f2; font-size: 18px; }
-.tile-256   { background: #edcc61; color: #f9f6f2; font-size: 18px; }
-.tile-512   { background: #edc850; color: #f9f6f2; font-size: 18px; }
-.tile-1024  { background: #edc53f; color: #f9f6f2; font-size: 16px; }
-.tile-2048  { background: #edc22e; color: #f9f6f2; font-size: 16px; }
-
-/* Ячейки по умолчанию */
-.cell {
-    transition: all 0.2s ease;
-}
-
-.cell {
-    /* уже есть: background, width, height */
-    transform: scale(1);
-    transition: transform 0.1s ease, background 0.2s ease;
-}
-
-.cell:not(:empty) {
-    animation: pop 0.15s ease;
-}
-
-@keyframes pop {
-    0% { transform: scale(0.8); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-.overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-.modal {
-    background: #f9f6f2;
-    padding: 30px;
+    background: #c6c0dd; /* лиловый фон поля */
+    border: 6px solid #d08ed2; /* розово-фиолетовая рамка */
     border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 0 10px #888;
 }
 
-.modal h2 {
-    margin-bottom: 20px;
-    color: #776e65;
-}
-
-.modal button {
-    padding: 10px 20px;
-    background: #8f7a66;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.hidden {
-    display: none;
-}
-
-.overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+/* базовая (пустая) ячейка */
+.cell {
+    background: #c6c0dd;
+    border-radius: 18px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    z-index: 100;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 32px;
 }
 
-.modal {
-    background: #f9f6f2;
-    padding: 30px 40px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 0 15px #aaa;
+/* если к ячейке добавлен класс tile-N, перекрасим её */
+.cell[class*="tile-"] {
+    background: inherit
 }
 
-.modal h2 {
-    margin-bottom: 20px;
-    color: #776e65;
+/* ——— Палитра плиток ——— */
+.cell.tile-2 {
+    background: #dfe8ad;
+    color: #34401a
 }
 
-.modal button {
-    padding: 10px 20px;
-    background: #8f7a66;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
+.cell.tile-4 {
+    background: #ffb7a1;
+    color: #4c2614
 }
 
-.hidden {
-    display: none;
+.cell.tile-8 {
+    background: #ff7ad1;
+    color: #ffffff
+}
+
+.cell.tile-16 {
+    background: #7fbf7b;
+    color: #ffffff
+}
+
+.cell.tile-32 {
+    background: #6aaad9;
+    color: #ffffff
+}
+
+.cell.tile-64 {
+    background: #9396e6;
+    color: #ffffff
+}
+
+.cell.tile-128 {
+    background: #b2f3ff;
+    color: #34404c;
+    font-size: 28px
+}
+
+.cell.tile-256 {
+    background: #8e919e;
+    color: #ffffff;
+    font-size: 28px
+}
+
+.cell.tile-512 {
+    background: #c98b84;
+    color: #ffffff;
+    font-size: 28px
+}
+
+.cell.tile-1024 {
+    background: #83d870;
+    color: #ffffff;
+    font-size: 24px
+}
+
+.cell.tile-2048 {
+    background: #f6e18b;
+    color: #6d5b18;
+    font-size: 24px
+}
+
+/* ——— Полностью скрываем встроенный оверлей “You win” ——— */
+#overlay {
+    display: none !important
+}
+
+/* ======= Адаптив: небольшие экраны ==================== */
+@media (max-width: 600px) {
+    .logo {
+        font-size: 120px
+    }
+
+    .prompt {
+        font-size: 32px
+    }
+
+    .name-input {
+        width: 90vw;
+        font-size: 28px;
+        height: 70px
+    }
+
+    #startGame {
+        font-size: 28px;
+        padding: 18px 40px
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: center
+    }
+
+    .player-board, .score-board {
+        font-size: 20px
+    }
+
+    #restart {
+        font-size: 20px
+    }
+
+    .grid-container {
+        width: 90vw;
+        height: 90vw
+    }
+
+    .cell {
+        font-size: 24px
+    }
 }
