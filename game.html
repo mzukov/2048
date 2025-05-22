@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>2048 Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title>2048</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div class="game-container">
     <div class="header">
-        <div class="player-board">Игрок: <span id="playerNameDisplay"></span></div>
-
         <div class="score-board">
-            <div>Score:</div>
+            <div>Счёт:</div>
             <div id="score">0</div>
         </div>
-        <button id="restart">New Game</button>
+        <button id="restart">↻ Заново</button>
     </div>
 
     <div id="overlay" class="overlay hidden">
@@ -25,6 +23,7 @@
     </div>
 
     <div class="grid-container">
+        <!-- 16 ячеек 4×4 -->
         <div class="cell" data-pos="0-0"></div>
         <div class="cell" data-pos="0-1"></div>
         <div class="cell" data-pos="0-2"></div>
@@ -47,15 +46,6 @@
     </div>
 </div>
 
-<script src="script.js"></script>
-
-<!-- мини-скрипт, чтобы подставить имя -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const playerName = sessionStorage.getItem('playerName') || 'Гость';
-        const el = document.getElementById('playerNameDisplay');
-        if (el) el.textContent = playerName;
-    });
-</script>
+<script src="js/script.js"></script>
 </body>
 </html>

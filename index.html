@@ -2,29 +2,19 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>2048 — Ввод имени</title>
-    <link rel="stylesheet" href="style.css">
+    <title>2048 — Введите имя</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="background:url('back1.png')">
-<div class="start-container">
-    <h1 class="logo">2048</h1>
-    <p class="prompt">Введите ваше имя</p>
+<body class="center">
+<main class="card">
+    <h1 class="title">2048</h1>
 
-    <input type="text" id="playerName" class="name-input" placeholder="Имя игрока">
-    <button id="startGame">Начать игру</button>
-</div>
+    <label for="name">Ваше имя:</label>
+    <input id="name" type="text" maxlength="20" autocomplete="off" required>
+    <button id="startBtn">Играть</button>
+</main>
 
-<script>
-    document.getElementById('startGame').addEventListener('click', () => {
-        const name = document.getElementById('playerName').value.trim();
-        if (!name) {
-            alert('Пожалуйста, введите имя.');
-            return;
-        }
-        sessionStorage.setItem('playerName', name);
-        window.location.href = 'game.html';
-    });
-</script>
+<script src="js/index.js"></script>
 </body>
 </html>
