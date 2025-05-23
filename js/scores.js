@@ -1,7 +1,7 @@
 const tbody = document.querySelector('#scoreTable tbody');
 const data = JSON.parse(localStorage.getItem('scores') || '[]')
     .sort((a, b) => b.score - a.score)
-    .slice(0, 20);
+    .slice(0, 10);
 
 data.forEach((row, i) => {
     const tr = document.createElement('tr');
