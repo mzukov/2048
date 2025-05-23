@@ -147,3 +147,75 @@ h1 {
 .tile-512   { background: #d38a7f; color: #000; font-size:1.3rem; }
 .tile-1024  { background: #95e87f; color: #000; font-size:1.3rem; }
 .tile-2048  { background: #ffe085; color: #000; font-size:1.3rem; }
+/* === Сброс немного расширенный === */
+body, h1, label, input, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* === Стили первой страницы === */
+.start-page {
+    font-family: 'Indie Flower', cursive;
+    background: #8a96ae;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Indie Flower', cursive;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+/* Заголовок 2048 */
+.start-container h1 {
+    font-size: 6rem;
+    color: #ffffff;
+    line-height: 1;
+}
+
+/* Надпись «Ваше имя» */
+.start-container label {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+/* Поле ввода */
+.start-container input {
+    width: 300px;
+    padding: 0.8rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+}
+
+/* Кнопка «Играть» */
+.start-container button {
+    width: 200px;
+    padding: 0.8rem;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 8px;
+    background: #f1c0e8;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    font-family: 'Indie Flower', cursive;
+}
+
+.start-container button:hover {
+    opacity: 0.85;
+}
+
+.start-container input::placeholder {
+    font-family: 'Indie Flower', cursive;
+}
