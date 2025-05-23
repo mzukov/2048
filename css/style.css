@@ -74,6 +74,7 @@ h1 {
     padding: .6rem 1rem;
     font-size: 1rem;
     cursor: pointer;
+    font-family: 'Indie Flower', cursive;
 }
 
 /* 7) Оверлей победы */
@@ -107,6 +108,7 @@ h1 {
     font-size: 1rem;
     margin: 0 .5rem;
     cursor: pointer;
+    font-family: 'Indie Flower', cursive;
 }
 
 /* 8) Сетка 4×4 с розовыми линиями */
