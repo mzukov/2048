@@ -1,183 +1,149 @@
-body {
-    font-family: sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #faf8ef;
+/* 1) Подключите в <head> Google Font: */
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+/* 2) Сброс и базовые настройки */
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Indie Flower', cursive;
+    background: #8a96ae;            /* приглушённо-синяя заливка */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
+/* 3) Контейнер всей игры */
 .game-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1.5rem;
 }
 
+/* 4) Декоративные цветочки по углам */
+.game-container::before,
+.game-container::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .3;
+}
+.game-container::before {
+    top: -40px;
+    left: -40px;
+}
+.game-container::after {
+    bottom: -40px;
+    right: -40px;
+}
+
+/* 5) Заголовок */
+h1 {
+    font-size: 4rem;
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+
+/* 6) Header: имя + счёт + кнопка */
 .header {
     display: flex;
-    justify-content: space-between;
-    width: 270px;
-    margin-bottom: 20px;
-}
-
-.score-board {
-    background: #bbada0;
-    color: #fff;
-    padding: 10px;
-    border-radius: 4px;
-    font-weight: bold;
-    display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
 }
-
+.score-board {
+    background: #e3dffd;            /* бледно-сиреневый фон */
+    color: #4a4a4a;
+    padding: .6rem 1rem;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
 #restart {
-    padding: 10px;
-    background: #8f7a66;
-    color: white;
+    background: #f1c0e8;            /* пастельно-розовый */
+    color: #4a4a4a;
     border: none;
-    border-radius: 4px;
+    border-radius: 12px;
+    padding: .6rem 1rem;
+    font-size: 1rem;
     cursor: pointer;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 60px);
-    grid-template-rows: repeat(4, 60px);
-    gap: 10px;
-    background: #bbada0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.cell {
-    width: 60px;
-    height: 60px;
-    background: #cdc1b4;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 20px;
-    user-select: none;
-    transition: transform 0.1s ease, background 0.2s ease;
-}
-
-.cell:not(:empty) {
-    animation: pop 0.15s ease;
-}
-
-@keyframes pop {
-    0% {
-        transform: scale(0.8);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* Цвета плиток */
-.tile-2 {
-    background: #eee4da;
-    color: #776e65;
-}
-
-.tile-4 {
-    background: #ede0c8;
-    color: #776e65;
-}
-
-.tile-8 {
-    background: #f2b179;
-    color: #f9f6f2;
-}
-
-.tile-16 {
-    background: #f59563;
-    color: #f9f6f2;
-}
-
-.tile-32 {
-    background: #f67c5f;
-    color: #f9f6f2;
-}
-
-.tile-64 {
-    background: #f65e3b;
-    color: #f9f6f2;
-}
-
-.tile-128 {
-    background: #edcf72;
-    color: #f9f6f2;
-    font-size: 18px;
-}
-
-.tile-256 {
-    background: #edcc61;
-    color: #f9f6f2;
-    font-size: 18px;
-}
-
-.tile-512 {
-    background: #edc850;
-    color: #f9f6f2;
-    font-size: 18px;
-}
-
-.tile-1024 {
-    background: #edc53f;
-    color: #f9f6f2;
-    font-size: 16px;
-}
-
-.tile-2048 {
-    background: #edc22e;
-    color: #f9f6f2;
-    font-size: 16px;
-}
-
+/* 7) Оверлей победы */
 .overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    background: rgba(0,0,0,0.4);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
+    z-index: 10;
 }
-
+.hidden { display: none; }
 .modal {
     background: #f9f6f2;
-    padding: 30px 40px;
-    border-radius: 10px;
+    padding: 2rem 3rem;
+    border-radius: 16px;
     text-align: center;
-    box-shadow: 0 0 15px #aaa;
 }
-
 .modal h2 {
-    margin-bottom: 20px;
-    color: #776e65;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #4a4a4a;
 }
-
 .modal button {
-    padding: 10px 20px;
-    background: #8f7a66;
+    background: #f1c0e8;
+    color: #4a4a4a;
     border: none;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
+    border-radius: 12px;
+    padding: .6rem 1.2rem;
+    font-size: 1rem;
+    margin: 0 .5rem;
     cursor: pointer;
 }
 
-.hidden {
-    display: none;
+/* 8) Сетка 4×4 с розовыми линиями */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows:    repeat(4, 80px);
+    gap: 10px;
+    background: #c7c0e0;           /* бледно-сиреневый фон */
+    padding: 10px;
+    border: 4px solid #e3dffd;     /* чуть более тёмно-розово-сиреневый */
+    border-radius: 12px;
 }
+
+/* 9) Пустая ячейка */
+.cell {
+    background: transparent;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a4a4a;
+    user-select: none;
+    transition: all .2s ease;
+}
+
+/* 10) Цвета плиток под ваши примеры */
+.tile-2     { background: #e8e8ad; }  /* мягкий салатовый */
+.tile-4     { background: #ffb198; }  /* персиковый */
+.tile-8     { background: #ff80df; }  /* розовый */
+.tile-16    { background: #88c688; }  /* мятный */
+.tile-32    { background: #6ea9e9; }  /* голубой */
+.tile-64    { background: #9a93f4; }  /* приглушённо-фиолетовый */
+.tile-128   { background: #98fdfd; color: #000; font-size:1.3rem; }
+.tile-256   { background: #7f7f8e; color: #000; font-size:1.3rem; }
+.tile-512   { background: #d38a7f; color: #000; font-size:1.3rem; }
+.tile-1024  { background: #95e87f; color: #000; font-size:1.3rem; }
+.tile-2048  { background: #ffe085; color: #000; font-size:1.3rem; }
