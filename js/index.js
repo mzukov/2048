@@ -4,5 +4,6 @@ document.getElementById('startBtn').addEventListener('click', () => {
     if (!name) return nameInput.focus();
 
     localStorage.setItem('playerName', name);
+    localStorage.removeItem('game2048State');
     window.location.href = 'game.html';
 });

@@ -1,3 +1,5 @@
+import { sendScore } from './api.js'; 
+
 class Game2048 {
     constructor(size = 4) {
         this.size = size;
@@ -183,21 +185,32 @@ class GameController {
 
             if (this.game.hasWon()) {
                 this._end('You win!');
+                this._sendFinalScore(); 
             } else if (
                 this.game._getEmptyCells().length === 0 &&
                 !this.game.hasWon()
             ) {
-                // Game over → сразу сохраняем и редиректим
-                const name = localStorage.getItem('playerName') || 'Гость';
-                const scores = JSON.parse(localStorage.getItem('scores') || '[]');
-                scores.push({name, score: this.game.score});
-                localStorage.setItem('scores', JSON.stringify(scores));
-
-                window.location.href = 'scores.html';
+                this._sendFinalScore();
             }
         }
     }
 
+    async _sendFinalScore() {
+        const playerName = localStorage.getItem('playerName') || 'Гость';
+        const finalScore = this.game.score;
+        
+        console.log(`Игра окончена! Имя: ${playerName}, Счет: ${finalScore}`);
+
+        try {
+            await sendScore(playerName, finalScore);
+            console.log('Счет успешно отправлен на сервер.');
+        } catch (error) {
+            console.error('Не удалось отправить счет на сервер:', error);
+            alert('Не удалось сохранить ваш счет на доске лидеров.');
+        } finally {
+            window.location.href = 'scores.html';
+        }
+    }
 
     _update() {
         this.view.render(this.game.board, this.game.score);
