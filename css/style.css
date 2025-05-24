@@ -9,8 +9,11 @@
 }
 
 body {
-    font-family: 'Indie Flower', cursive;
-    background: #8a96ae; /* приглушённо-синяя заливка */
+    background-image: url("background_game.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Hachi Maru Pop', cursive;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,21 +68,23 @@ h1 {
 .score-board {
     background: #e3dffd; /* бледно-сиреневый фон */
     color: #4a4a4a;
-    padding: .6rem 1rem;
+    padding: 10px 30px;
     border-radius: 12px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
+    overflow: hidden;
 }
 
 #restart {
-    background: #f1c0e8; /* пастельно-розовый */
+    background: #f1c0e8;
     color: #4a4a4a;
     border: none;
     border-radius: 12px;
-    padding: .6rem 1rem;
+    padding: 10px 30px;
+    margin: auto;
     font-size: 1rem;
     cursor: pointer;
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 /* 7) Оверлей победы */
@@ -119,7 +124,7 @@ h1 {
     font-size: 1rem;
     margin: 0 .5rem;
     cursor: pointer;
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 /* 8) Сетка 4×4 с розовыми линиями */
@@ -150,63 +155,48 @@ h1 {
 
 /* 10) Цвета плиток под ваши примеры */
 .tile-2 {
-    background: #e8e8ad;
+    background: #E0DEA9;
 }
 
-/* мягкий салатовый */
 .tile-4 {
-    background: #ffb198;
+    background: #FFB09A;
 }
 
-/* персиковый */
 .tile-8 {
-    background: #ff80df;
+    background: #FF7CE5;
 }
 
-/* розовый */
 .tile-16 {
-    background: #88c688;
+    background: #8BBA7B;
 }
 
-/* мятный */
 .tile-32 {
-    background: #6ea9e9;
+    background: #6FA5D2;
 }
 
-/* голубой */
 .tile-64 {
-    background: #9a93f4;
+    background: #9590EB;
 }
 
-/* приглушённо-фиолетовый */
 .tile-128 {
-    background: #98fdfd;
-    color: #000;
-    font-size: 1.3rem;
+    background: #ACF6FC;
 }
 
 .tile-256 {
-    background: #7f7f8e;
-    color: #000;
-    font-size: 1.3rem;
+    background: #8488A1;
 }
 
 .tile-512 {
-    background: #d38a7f;
-    color: #000;
-    font-size: 1.3rem;
+    background: #CE8A8B;
 }
 
 .tile-1024 {
-    background: #95e87f;
-    color: #000;
-    font-size: 1.3rem;
+    background: #8CE096;
+
 }
 
 .tile-2048 {
-    background: #ffe085;
-    color: #000;
-    font-size: 1.3rem;
+    background: #FFE09D;
 }
 
 /* === Сброс немного расширенный === */
@@ -218,8 +208,11 @@ body, h1, label, input, button {
 
 /* === Стили первой страницы === */
 .start-page {
-    font-family: 'Indie Flower', cursive;
-    background: #8a96ae;
+    font-family: 'Hachi Maru Pop', cursive;
+    background-image: url("background_start_menu.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     height: 100vh;
     display: flex;
     align-items: center;
@@ -230,7 +223,7 @@ body, h1, label, input, button {
     text-align: center;
     display: flex;
     flex-direction: column;
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Hachi Maru Pop', cursive;
     gap: 1.5rem;
     align-items: center;
 }
@@ -257,7 +250,7 @@ body, h1, label, input, button {
     border: none;
     outline: none;
     text-align: center;
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 /* Кнопка «Играть» */
@@ -271,7 +264,7 @@ body, h1, label, input, button {
     color: #4a4a4a;
     cursor: pointer;
     transition: opacity 0.2s ease;
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 .start-container button:hover {
@@ -279,19 +272,21 @@ body, h1, label, input, button {
 }
 
 .start-container input::placeholder {
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Hachi Maru Pop', cursive;
 }
 
 
 /* ========== СТРАНИЦА РЕКОРДОВ ========== */
 .scores-page {
-    /* фоновый цвет и центрирование */
-    background: #8a96ae;
+    font-family: 'Hachi Maru Pop', cursive;
+    background-image: url("background_end.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    font-family: 'Indie Flower', cursive;
     padding: 2rem;
 }
 
@@ -328,7 +323,7 @@ body, h1, label, input, button {
 
 /* Кнопка "Играть заново" */
 #playAgain {
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Hachi Maru Pop', cursive;
     font-size: 1.5rem;
     padding: 0.8rem 1.5rem;
     background: #f1c0e8;
