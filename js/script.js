@@ -184,15 +184,21 @@ class GameController {
 
     _bindTouch() {
         let startX, startY;
+        const grid = document.querySelector('.grid-container');
 
-        document.addEventListener('touchstart', e => {
+        grid.addEventListener('touchstart', e => {
             if (e.touches.length === 1) {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
             }
-        });
+            e.preventDefault();
+        }, { passive: false });
 
-        document.addEventListener('touchend', e => {
+        grid.addEventListener('touchmove', e => {
+            e.preventDefault();
+        }, { passive: false });
+
+        grid.addEventListener('touchend', e => {
             if (!startX || !startY) return;
 
             const endX = e.changedTouches[0].clientX;
@@ -217,7 +223,8 @@ class GameController {
             }
 
             startX = startY = null;
-        });
+            e.preventDefault();
+        }, { passive: false });
     }
 
 
