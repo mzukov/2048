@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+
+body {
+    background-image: url("../assets/background_game.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Hachi Maru Pop', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.game-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.game-container::before,
+.game-container::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: .3;
+}
+
+.game-container::before {
+    top: -40px;
+    left: -40px;
+}
+
+.game-container::after {
+    bottom: -40px;
+    right: -40px;
+}
+
+h1 {
+    font-size: 4rem;
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.score-board {
+    background: #e3dffd;
+    color: #4a4a4a;
+    padding: 10px 30px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+#restart {
+    background: #f1c0e8;
+    color: #4a4a4a;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 30px;
+    margin: auto;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.49);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    background: rgba(0, 0, 0, 0);
+    padding: 2rem 3rem;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.modal h2 {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+    color: #efbee6;
+}
+
+.modal button {
+    background: #f1c0e8;
+    color: #4a4a4a;
+    border: none;
+    border-radius: 12px;
+    padding: .6rem 1.2rem;
+    font-size: 1rem;
+    margin: 0 .5rem;
+    cursor: pointer;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    grid-template-rows: repeat(4, 80px);
+    gap: 10px;
+    background: #c7c0e0;
+    padding: 10px;
+    border: 4px solid #e3dffd;
+    border-radius: 12px;
+}
+
+.cell {
+    background: transparent;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4a4a4a;
+    user-select: none;
+    transition: all .2s ease;
+}
+
+.tile-2 {
+    background: #E0DEA9;
+}
+
+.tile-4 {
+    background: #FFB09A;
+}
+
+.tile-8 {
+    background: #FF7CE5;
+}
+
+.tile-16 {
+    background: #8BBA7B;
+}
+
+.tile-32 {
+    background: #6FA5D2;
+}
+
+.tile-64 {
+    background: #9590EB;
+}
+
+.tile-128 {
+    background: #ACF6FC;
+}
+
+.tile-256 {
+    background: #8488A1;
+}
+
+.tile-512 {
+    background: #CE8A8B;
+}
+
+.tile-1024 {
+    background: #8CE096;
+}
+
+.tile-2048 {
+    background: #FFE09D;
+}

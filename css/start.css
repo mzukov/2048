@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+
+.start-page {
+    font-family: 'Hachi Maru Pop', cursive;
+    background-image: url("../assets/background_start_menu.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.start-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Hachi Maru Pop', cursive;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.start-container h1 {
+    font-size: 6rem;
+    color: #ffffff;
+    line-height: 1;
+}
+
+.start-container label {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.start-container input {
+    width: 300px;
+    padding: 0.8rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+.start-container button {
+    width: 200px;
+    padding: 0.8rem;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 8px;
+    background: #f1c0e8;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+.start-container button:hover {
+    opacity: 0.85;
+}
+
+.start-container input::placeholder {
+    font-family: 'Hachi Maru Pop', cursive;
+}

@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>2048</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
 <div class="game-container">
@@ -17,13 +18,13 @@
 
     <div id="overlay" class="overlay hidden">
         <div class="modal">
-            <h2 id="end-message">You win!</h2>
-            <button id="play-again">Play Again</button>
+            <h2 id="end-message"></h2>
+            <button id="play-again">Играть снова</button>
+            <button id="check-score">Посмотреть счет</button>
         </div>
     </div>
 
     <div class="grid-container">
-        <!-- 16 ячеек 4×4 -->
         <div class="cell" data-pos="0-0"></div>
         <div class="cell" data-pos="0-1"></div>
         <div class="cell" data-pos="0-2"></div>

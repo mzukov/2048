@@ -1,4 +1,4 @@
-import { sendScore } from './api.js'; 
+import {sendScore} from './api.js';
 
 class Game2048 {
     constructor(size = 4) {
@@ -97,15 +97,42 @@ class Game2048 {
     _transpose() {
         for (let r = 0; r < this.size; r++) {
             for (let c = r + 1; c < this.size; c++) {
-                [this.board[r][c], this.board[c][r]] =
-                    [this.board[c][r], this.board[r][c]];
+                [this.board[r][c], this.board[c][r]] = [this.board[c][r], this.board[r][c]];
             }
         }
     }
 
+    // НОВЫЙ МЕТОД ДЛЯ ПРОВЕРКИ, ВОЗМОЖЕН ЛИ ЕЩЕ ХОД
+    _canMakeMove() {
+        // Если есть пустые ячейки, ход возможен
+        if (this._getEmptyCells().length > 0) {
+            return true;
+        }
+
+        // Проверка на горизонтальные слияния
+        for (let r = 0; r < this.size; r++) {
+            for (let c = 0; c < this.size - 1; c++) {
+                if (this.board[r][c] !== 0 && this.board[r][c] === this.board[r][c + 1]) {
+                    return true;
+                }
+            }
+        }
+
+        // Проверка на вертикальные слияния
+        for (let c = 0; c < this.size; c++) {
+            for (let r = 0; r < this.size - 1; r++) {
+                if (this.board[r][c] !== 0 && this.board[r][c] === this.board[r + 1][c]) {
+                    return true;
+                }
+            }
+        }
+
+        return false; // Нет пустых ячеек и нет возможных слияний
+    }
+
+
     saveState() {
-        localStorage.setItem('game2048State',
-            JSON.stringify({board: this.board, score: this.score}));
+        localStorage.setItem('game2048State', JSON.stringify({board: this.board, score: this.score}));
     }
 
     _loadState() {
@@ -151,6 +178,7 @@ class GameController {
         this.overlay = document.getElementById('overlay');
         this.msg = document.getElementById('end-message');
         this.playBtn = document.getElementById('play-again');
+        this.scoreBtn = document.getElementById('check-score');
         this.restart = document.getElementById('restart');
 
         this.overlay.classList.add('hidden');
@@ -160,16 +188,25 @@ class GameController {
 
     _bind() {
         document.addEventListener('keydown', e => this._move(e.key));
+
         this.restart.addEventListener('click', () => {
             this.overlay.classList.add('hidden');
             this.game.resetGame();
             this._update();
         });
+
         this.playBtn.addEventListener('click', () => {
             this.overlay.classList.add('hidden');
             this.game.resetGame();
             this._update();
         });
+
+        this.scoreBtn.addEventListener('click', () => {
+            this.overlay.classList.add('hidden');
+            this.game.resetGame();
+            this._update();
+            window.location.href = 'scores.html'
+        })
     }
 
     _move(key) {
@@ -179,18 +216,23 @@ class GameController {
             ArrowUp: () => this.game.moveUp(),
             ArrowDown: () => this.game.moveDown()
         };
-        if (moves[key] && moves[key]()) {
-            this._update();
-            this.game.saveState();
 
-            if (this.game.hasWon()) {
-                this._end('You win!');
-                this._sendFinalScore(); 
-            } else if (
-                this.game._getEmptyCells().length === 0 &&
-                !this.game.hasWon()
-            ) {
-                this._sendFinalScore();
+        if (moves[key] && moves[key]()) {
+            this._update();      // Обновляем отображение игры
+            this.game.saveState(); // Сохраняем состояние игры
+
+            // Проверяем условия окончания игры
+            const hasWon = this.game.hasWon();
+            const canMakeMove = this.game._canMakeMove();
+
+            if (hasWon) {
+                // Если игрок выиграл
+                this._end('Вы выиграли!'); // Показываем модальное окно о победе
+                this._sendFinalScore(); // Отправляем счет на сервер (без перенаправления!)
+            } else if (!canMakeMove) {
+                // Если нет пустых ячеек и нет возможных слияний (игра окончена)
+                this._end('Игра окончена!'); // Показываем модальное окно о проигрыше
+                this._sendFinalScore(); // Отправляем счет на сервер (без перенаправления!)
             }
         }
     }
@@ -198,7 +240,7 @@ class GameController {
     async _sendFinalScore() {
         const playerName = localStorage.getItem('playerName') || 'Гость';
         const finalScore = this.game.score;
-        
+
         console.log(`Игра окончена! Имя: ${playerName}, Счет: ${finalScore}`);
 
         try {
@@ -207,9 +249,9 @@ class GameController {
         } catch (error) {
             console.error('Не удалось отправить счет на сервер:', error);
             alert('Не удалось сохранить ваш счет на доске лидеров.');
-        } finally {
-            window.location.href = 'scores.html';
         }
+        // !!! ВАЖНО: АВТОМАТИЧЕСКОЕ ПЕРЕНАПРАВЛЕНИЕ УДАЛЕНО ИЗ ЭТОЙ ФУНКЦИИ !!!
+        // window.location.href = 'scores.html'; // Этого здесь больше НЕТ
     }
 
     _update() {
@@ -218,8 +260,9 @@ class GameController {
 
     _end(text) {
         this.msg.textContent = text;
-        this.overlay.classList.remove('hidden');
+        this.overlay.classList.remove('hidden'); // Показываем модальное окно
     }
 }
 
+// Запускаем контроллер после загрузки DOM
 window.addEventListener('DOMContentLoaded', () => new GameController());
