@@ -1,0 +1,86 @@
+/* Стили index.html (стартовой страницы) */
+.start-page {
+    background-image: url("../assets/background_picture/background_start_menu.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+}
+
+.start-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.start-container h1 {
+    font-size: 6rem;
+    line-height: 1;
+}
+
+.start-container label {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.start-container input {
+    width: 300px;
+    padding: 0.8rem 1rem;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.start-container button {
+    width: 200px;
+    padding: 0.8rem;
+    font-size: 1.25rem;
+    background: #f1c0e8;
+    color: #4a4a4a;
+}
+
+/* Стили scores.html (таблица рейтинга) */
+.scores-page {
+    background-image: url("../assets/background_picture/background_end.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.scores-container {
+    text-align: center;
+    color: #fff;
+}
+
+.scores-container h1 {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+}
+
+#scoreTable {
+    margin: 0 auto 1.5rem;
+    border-collapse: collapse;
+    font-size: 1.25rem;
+    color: #fff;
+}
+
+#scoreTable th,
+#scoreTable td {
+    padding: 0.6rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+#scoreTable th {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+#playAgain {
+    font-size: 1.5rem;
+    padding: 0.8rem 1.5rem;
+    background: #f1c0e8;
+    color: #4a4a4a;
+}

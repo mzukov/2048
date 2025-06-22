@@ -1,0 +1,44 @@
+.tile-2 {
+    background: #E0DEA9;
+}
+
+.tile-4 {
+    background: #FFB09A;
+}
+
+.tile-8 {
+    background: #FF7CE5;
+}
+
+.tile-16 {
+    background: #8BBA7B;
+}
+
+.tile-32 {
+    background: #6FA5D2;
+}
+
+.tile-64 {
+    background: #9590EB;
+}
+
+.tile-128 {
+    background: #ACF6FC;
+}
+
+.tile-256 {
+    background: #8488A1;
+}
+
+.tile-512 {
+    background: #CE8A8B;
+}
+
+.tile-1024 {
+    background: #8CE096;
+
+}
+
+.tile-2048 {
+    background: #FFE09D;
+}

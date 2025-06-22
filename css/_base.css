@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+
+/* Общие изначальные стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для body */
+body {
+    font-family: 'Hachi Maru Pop', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Стили для заголовков */
+h1 {
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+
+/* Стили для кнопок */
+button {
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Hachi Maru Pop', cursive;
+    transition: opacity 0.2s ease;
+}
+
+button:hover {
+    opacity: 0.85;
+}
+
+input {
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+input::placeholder {
+    font-family: 'Hachi Maru Pop', cursive;
+}

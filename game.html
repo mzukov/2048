@@ -5,7 +5,7 @@
     <title>2048</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="game-page">
 <div class="game-container">
     <div class="header">
         <div class="score-board">
@@ -17,13 +17,12 @@
 
     <div id="overlay" class="overlay hidden">
         <div class="modal">
-            <h2 id="end-message">You win!</h2>
-            <button id="play-again">Play Again</button>
+            <h2 id="end-message">Ты выиграл!</h2>
+            <button id="play-again">Играть еще раз</button>
         </div>
     </div>
 
     <div class="grid-container">
-        <!-- 16 ячеек 4×4 -->
         <div class="cell" data-pos="0-0"></div>
         <div class="cell" data-pos="0-1"></div>
         <div class="cell" data-pos="0-2"></div>

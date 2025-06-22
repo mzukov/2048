@@ -13,7 +13,7 @@ class Game2048 {
     }
 
     hasWon() {
-        return this.board.some(row => row.includes(2048));
+        return this.board.some(row => row.includes(32));
     }
 
     _createEmptyBoard() {
