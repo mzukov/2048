@@ -102,14 +102,11 @@ class Game2048 {
         }
     }
 
-    // НОВЫЙ МЕТОД ДЛЯ ПРОВЕРКИ, ВОЗМОЖЕН ЛИ ЕЩЕ ХОД
     _canMakeMove() {
-        // Если есть пустые ячейки, ход возможен
         if (this._getEmptyCells().length > 0) {
             return true;
         }
 
-        // Проверка на горизонтальные слияния
         for (let r = 0; r < this.size; r++) {
             for (let c = 0; c < this.size - 1; c++) {
                 if (this.board[r][c] !== 0 && this.board[r][c] === this.board[r][c + 1]) {
@@ -118,7 +115,6 @@ class Game2048 {
             }
         }
 
-        // Проверка на вертикальные слияния
         for (let c = 0; c < this.size; c++) {
             for (let r = 0; r < this.size - 1; r++) {
                 if (this.board[r][c] !== 0 && this.board[r][c] === this.board[r + 1][c]) {
@@ -127,7 +123,7 @@ class Game2048 {
             }
         }
 
-        return false; // Нет пустых ячеек и нет возможных слияний
+        return false;
     }
 
 
@@ -259,21 +255,18 @@ class GameController {
         };
 
         if (moves[key] && moves[key]()) {
-            this._update();      // Обновляем отображение игры
-            this.game.saveState(); // Сохраняем состояние игры
+            this._update();
+            this.game.saveState();
 
-            // Проверяем условия окончания игры
             const hasWon = this.game.hasWon();
             const canMakeMove = this.game._canMakeMove();
 
             if (hasWon) {
-                // Если игрок выиграл
-                this._end('Вы выиграли!'); // Показываем модальное окно о победе
-                this._sendFinalScore(); // Отправляем счет на сервер (без перенаправления!)
+                this._end('Вы выиграли!');
+                this._sendFinalScore();
             } else if (!canMakeMove) {
-                // Если нет пустых ячеек и нет возможных слияний (игра окончена)
-                this._end('Игра окончена!'); // Показываем модальное окно о проигрыше
-                this._sendFinalScore(); // Отправляем счет на сервер (без перенаправления!)
+                this._end('Игра окончена!');
+                this._sendFinalScore();
             }
         }
     }
@@ -291,8 +284,6 @@ class GameController {
             console.error('Не удалось отправить счет на сервер:', error);
             alert('Не удалось сохранить ваш счет на доске лидеров.');
         }
-        // !!! ВАЖНО: АВТОМАТИЧЕСКОЕ ПЕРЕНАПРАВЛЕНИЕ УДАЛЕНО ИЗ ЭТОЙ ФУНКЦИИ !!!
-        // window.location.href = 'scores.html'; // Этого здесь больше НЕТ
     }
 
     _update() {
@@ -301,9 +292,8 @@ class GameController {
 
     _end(text) {
         this.msg.textContent = text;
-        this.overlay.classList.remove('hidden'); // Показываем модальное окно
+        this.overlay.classList.remove('hidden');
     }
 }
 
-// Запускаем контроллер после загрузки DOM
 window.addEventListener('DOMContentLoaded', () => new GameController());
