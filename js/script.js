@@ -186,6 +186,45 @@ class GameController {
         this._update();
     }
 
+    _bindTouch() {
+        let startX, startY;
+
+        document.addEventListener('touchstart', e => {
+            if (e.touches.length === 1) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }
+        });
+
+        document.addEventListener('touchend', e => {
+            if (!startX || !startY) return;
+
+            const endX = e.changedTouches[0].clientX;
+            const endY = e.changedTouches[0].clientY;
+
+            const dx = endX - startX;
+            const dy = endY - startY;
+
+            const absDx = Math.abs(dx);
+            const absDy = Math.abs(dy);
+
+            let direction = null;
+
+            if (Math.max(absDx, absDy) > 30) {
+                if (absDx > absDy) {
+                    direction = dx > 0 ? 'ArrowRight' : 'ArrowLeft';
+                } else {
+                    direction = dy > 0 ? 'ArrowDown' : 'ArrowUp';
+                }
+
+                this._move(direction);
+            }
+
+            startX = startY = null;
+        });
+    }
+
+
     _bind() {
         document.addEventListener('keydown', e => this._move(e.key));
 
@@ -207,6 +246,8 @@ class GameController {
             this._update();
             window.location.href = 'scores.html'
         })
+
+        this._bindTouch();
     }
 
     _move(key) {
